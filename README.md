@@ -13,7 +13,7 @@
 
 
 ## Requirements ##
-* PHP 5.6+ as of Typesetter 5.1.1-b1
+* PHP 7.3+ (this fork only)
 
 
 ## Installation ##
