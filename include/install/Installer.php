@@ -372,7 +372,7 @@ class Installer{
 
 
 
-		$checking				= '<a href="http://www.php.net/manual/en/book.image.php" target="_blank">'.$langmessage['image_functions'].'</a>';
+		$checking				= '<a href="https://www.php.net/manual/en/book.image.php" target="_blank">'.$langmessage['image_functions'].'</a>';
 		$supported_string		= implode(', ',$supported);
 
 		if( count($supported) >= 4 ){
