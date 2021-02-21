@@ -271,7 +271,7 @@ class Installer{
 
 		$checkValue 	= ini_get('memory_limit');
 		$expected		= '16M+ or Adjustable';
-		$checking		= '<a href="http://php.net/manual/ini.core.php#ini.memory-limit" target="_blank">Memory Limit</a>';
+		$checking		= '<a href="https://php.net/manual/ini.core.php#ini.memory-limit" target="_blank">Memory Limit</a>';
 
 
 		// adjustable
