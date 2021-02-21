@@ -233,7 +233,7 @@ class Installer{
 		$version		= phpversion();
 		$can_install	= 2;
 
-		if( version_compare($version,'5.6','<') ){
+		if( version_compare($version,'7.3','<') ){
 			$can_install		= -1;
 		}
 
