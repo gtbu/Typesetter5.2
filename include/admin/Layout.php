@@ -594,6 +594,22 @@ class Layout extends \gp\admin\Addon\Install{
 		return $success;
 	}
 
+		/**
+	 * Get the customizer css for a layout if it exists
+	 * @since 5.2
+	 * @param string the layout id
+	 * @return string CSS, SCSS or LESS
+	 */
+	public function GetCustomizerCSS($layout){
+
+		$customizer_css_file = $this->GetCustomizerCSSFile($layout);
+
+		if( file_exists($customizer_css_file) ){
+			return file_get_contents($customizer_css_file);
+		}
+
+		return '';
+	}
 
 	/**
 	 * Save the customizer css
