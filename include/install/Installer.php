@@ -249,7 +249,7 @@ class Installer{
 		global $langmessage;
 
 		//make sure $_SERVER['SCRIPT_NAME'] is set
-		$checking		= '<a href="http://www.php.net/manual/reserved.variables.server.php" target="_blank">SCRIPT_NAME or PHP_SELF</a>';
+		$checking		= '<a href="https://www.php.net/manual/reserved.variables.server.php" target="_blank">SCRIPT_NAME or PHP_SELF</a>';
 		$can_install	= 2;
 		$expected		= $langmessage['Set'];
 		$curr			= $langmessage['Set'];
