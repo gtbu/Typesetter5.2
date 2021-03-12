@@ -3,7 +3,7 @@
 
 	gp_editing = {
 
-		autosave_interval:	15000, // in milliseconds
+		autosave_interval:	30000, // in milliseconds
 		can_autosave:		true, // default value, editor components can still deny
 
 		is_extra_mode:		false,
