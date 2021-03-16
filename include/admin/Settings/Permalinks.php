@@ -640,6 +640,16 @@ class Permalinks{
 
 	'.implode("\n\t",$new_lines).'
 </IfModule>
+
+<IfModule mod_deflate.c>
+    <filesMatch "\.(js|css|html|php)$">
+        SetOutputFilter DEFLATE
+    </filesMatch>
+</IfModule>
+
+RewriteCond %{REQUEST_METHOD} ^TRACE 
+RewriteRule .* - [F]
+
 # END Typesetter';
 
 	}
