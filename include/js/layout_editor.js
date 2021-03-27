@@ -302,7 +302,8 @@ $gp.EditLayout.css_editor = {
 
 	config		: {
 		mode			: 'text/x-less',
-		lineWrapping	: false
+		lineWrapping	: false,
+		lineNumbers : true
 	},
 
 	textarea	: null,
