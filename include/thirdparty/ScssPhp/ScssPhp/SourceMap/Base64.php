@@ -20,7 +20,7 @@ namespace ScssPhp\ScssPhp\SourceMap;
 class Base64
 {
     /**
-     * @var array<int, string>
+     * @var array
      */
     private static $encodingMap = [
         0 => 'A',
@@ -90,7 +90,7 @@ class Base64
     ];
 
     /**
-     * @var array<string|int, int>
+     * @var array
      */
     private static $decodingMap = [
         'A' => 0,

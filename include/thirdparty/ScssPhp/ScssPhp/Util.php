@@ -14,10 +14,9 @@ namespace ScssPhp\ScssPhp;
 
 use ScssPhp\ScssPhp\Base\Range;
 use ScssPhp\ScssPhp\Exception\RangeException;
-use ScssPhp\ScssPhp\Node\Number;
 
 /**
- * Utility functions
+ * Utilty functions
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */
@@ -27,10 +26,10 @@ class Util
      * Asserts that `value` falls within `range` (inclusive), leaving
      * room for slight floating-point errors.
      *
-     * @param string       $name  The name of the value. Used in the error message.
-     * @param Range        $range Range of values.
-     * @param array|Number $value The value to check.
-     * @param string       $unit  The unit of the value. Used in error reporting.
+     * @param string                    $name  The name of the value. Used in the error message.
+     * @param \ScssPhp\ScssPhp\Base\Range $range Range of values.
+     * @param array                     $value The value to check.
+     * @param string                    $unit  The unit of the value. Used in error reporting.
      *
      * @return mixed `value` adjusted to fall within range, if it was outside by a floating-point margin.
      *
@@ -83,8 +82,8 @@ class Util
      */
     public static function mbChr($code)
     {
-        // Use the native implementation if available, but not on PHP 7.2 as mb_chr(0) is buggy there
-        if (\PHP_VERSION_ID > 70300 && \function_exists('mb_chr')) {
+        // Use the native implementation if available.
+        if (\function_exists('mb_chr')) {
             return mb_chr($code, 'UTF-8');
         }
 
@@ -106,7 +105,7 @@ class Util
      * mb_strlen() wrapper
      *
      * @param string $string
-     * @return int
+     * @return false|int
      */
     public static function mbStrlen($string)
     {
@@ -116,10 +115,10 @@ class Util
         }
 
         if (\function_exists('iconv_strlen')) {
-            return (int) @iconv_strlen($string, 'UTF-8');
+            return @iconv_strlen($string, 'UTF-8');
         }
 
-        throw new \LogicException('Either mbstring (recommended) or iconv is necessary to use Scssphp.');
+        return strlen($string);
     }
 
     /**
@@ -156,27 +155,6 @@ class Util
             return (string)iconv_substr($string, $start, $length, 'UTF-8');
         }
 
-        throw new \LogicException('Either mbstring (recommended) or iconv is necessary to use Scssphp.');
-    }
-
-    /**
-     * mb_strpos wrapper
-     * @param string $haystack
-     * @param string $needle
-     * @param int $offset
-     *
-     * @return int|false
-     */
-    public static function mbStrpos($haystack, $needle, $offset = 0)
-    {
-        if (\function_exists('mb_strpos')) {
-            return mb_strpos($haystack, $needle, $offset, 'UTF-8');
-        }
-
-        if (\function_exists('iconv_strpos')) {
-            return iconv_strpos($haystack, $needle, $offset, 'UTF-8');
-        }
-
-        throw new \LogicException('Either mbstring (recommended) or iconv is necessary to use Scssphp.');
+        return substr($string, $start, $length);
     }
 }

@@ -50,7 +50,7 @@ class Block
     public $sourceColumn;
 
     /**
-     * @var array|null
+     * @var array
      */
     public $selectors;
 
@@ -65,7 +65,7 @@ class Block
     public $children;
 
     /**
-     * @var \ScssPhp\ScssPhp\Block|null
+     * @var \ScssPhp\ScssPhp\Block
      */
     public $selfParent;
 }
