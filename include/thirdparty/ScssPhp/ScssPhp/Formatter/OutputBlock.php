@@ -30,37 +30,37 @@ class OutputBlock
     public $depth;
 
     /**
-     * @var array
+     * @var array|null
      */
     public $selectors;
 
     /**
-     * @var array
+     * @var string[]
      */
     public $lines;
 
     /**
-     * @var array
+     * @var OutputBlock[]
      */
     public $children;
 
     /**
-     * @var \ScssPhp\ScssPhp\Formatter\OutputBlock
+     * @var OutputBlock|null
      */
     public $parent;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $sourceName;
 
     /**
-     * @var integer
+     * @var integer|null
      */
     public $sourceLine;
 
     /**
-     * @var integer
+     * @var integer|null
      */
     public $sourceColumn;
 }
