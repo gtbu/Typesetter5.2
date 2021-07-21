@@ -9,7 +9,7 @@
 * [Typesetter Demo](https://www.typesettercms.com/Demo)
 * [Typesetter Documentation](https://www.typesettercms.com/Docs)
 * [Typesetter Forum](https://www.typesettercms.com/Forum)
-* [Typesetter Wiki](https://github.com/gtbu/CKE_Themes/wiki) with more detailed instructions !
+* [Typesetter Wiki](https://github.com/gtbu/Typesetter5.2/wiki) with more detailed instructions !
 
 
 ## Requirements ##
