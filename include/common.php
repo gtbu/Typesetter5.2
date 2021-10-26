@@ -157,7 +157,7 @@ if ( function_exists('date_default_timezone_set') ){
  * @return false Always returns false so the standard PHP error handler is also used
  *
  */
-function showError($errno, $errmsg, $filename, $linenum, $vars, $backtrace=null){
+function showError($errno, $errmsg, $filename, $linenum, $vars=null, $backtrace=null){
 	global $wbErrorBuffer, $addon_current_id, $page, $addon_current_version, $config, $addonFolderName;
 	static $reported = [];
 
