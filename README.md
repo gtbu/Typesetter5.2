@@ -1,6 +1,6 @@
 
 <p align="center"><img src="/include/imgs/typesetter/ts-logo-color-100x100px-min.png?raw=true"/></p>
-<h1 align="center">Typesetter CMS </h1>
+<h1 align="center">Typesetter CMS - Version 5.2</h1>
 <p align="center">Open source CMS written in PHP focused on ease of use with true WYSIWYG editing and flat-file storage.<br/><br/></p>
 
 
