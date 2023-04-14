@@ -1,31 +1,29 @@
 <?php
-
 /**
  * Encode / Decode Base64 VLQ.
  *
- * @package Less
- * @subpackage SourceMap
+ * @private
  */
 class Less_SourceMap_Base64VLQ {
 
 	/**
 	 * Shift
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $shift = 5;
 
 	/**
 	 * Mask
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $mask = 0x1F; // == (1 << shift) == 0b00011111
 
 	/**
 	 * Continuation bit
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	private $continuationBit = 0x20; // == (mask - 1 ) == 0b00100000
 
@@ -34,7 +32,7 @@ class Less_SourceMap_Base64VLQ {
 	 *
 	 * @var array
 	 */
-	private $charToIntMap = array(
+	private $charToIntMap = [
 		'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6,
 		'H' => 7,'I' => 8, 'J' => 9, 'K' => 10, 'L' => 11, 'M' => 12, 'N' => 13,
 		'O' => 14, 'P' => 15, 'Q' => 16, 'R' => 17, 'S' => 18, 'T' => 19, 'U' => 20,
@@ -44,14 +42,14 @@ class Less_SourceMap_Base64VLQ {
 		'q' => 42, 'r' => 43, 's' => 44, 't' => 45, 'u' => 46, 'v' => 47, 'w' => 48,
 		'x' => 49, 'y' => 50, 'z' => 51, 0 => 52, 1 => 53, 2 => 54, 3 => 55, 4 => 56,
 		5 => 57,	6 => 58, 7 => 59, 8 => 60, 9 => 61, '+' => 62, '/' => 63,
-	);
+	];
 
 	/**
 	 * Integer to char map
 	 *
 	 * @var array
 	 */
-	private $intToCharMap = array(
+	private $intToCharMap = [
 		0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G',
 		7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'L', 12 => 'M', 13 => 'N',
 		14 => 'O', 15 => 'P', 16 => 'Q', 17 => 'R', 18 => 'S', 19 => 'T', 20 => 'U',
@@ -62,12 +60,12 @@ class Less_SourceMap_Base64VLQ {
 		49 => 'x', 50 => 'y', 51 => 'z', 52 => '0', 53 => '1', 54 => '2', 55 => '3',
 		56 => '4', 57 => '5', 58 => '6', 59 => '7', 60 => '8', 61 => '9', 62 => '+',
 		63 => '/',
-	);
+	];
 
 	/**
 	 * Constructor
 	 */
-	public function __construct(){
+	public function __construct() {
 		// I leave it here for future reference
 		// foreach(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/') as $i => $char)
 		// {
@@ -83,10 +81,10 @@ class Less_SourceMap_Base64VLQ {
 	 *	 2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
 	 * We generate the value for 32 bit machines, hence -2147483648 becomes 1, not 4294967297,
 	 * even on a 64 bit machine.
-	 * @param string $aValue
+	 * @param int $aValue
 	 */
-	public function toVLQSigned($aValue){
-		return 0xffffffff & ($aValue < 0 ? ((-$aValue) << 1) + 1 : ($aValue << 1) + 0);
+	public function toVLQSigned( $aValue ) {
+		return 0xffffffff & ( $aValue < 0 ? ( ( -$aValue ) << 1 ) + 1 : ( $aValue << 1 ) + 0 );
 	}
 
 	/**
@@ -98,30 +96,30 @@ class Less_SourceMap_Base64VLQ {
 	 * Hence
 	 *	 1 becomes -2147483648
 	 * even on a 64 bit machine.
-	 * @param integer $aValue
+	 * @param int $aValue
 	 */
-	public function fromVLQSigned($aValue){
-		return $aValue & 1 ? $this->zeroFill(~$aValue + 2, 1) | (-1 - 0x7fffffff) : $this->zeroFill($aValue, 1);
+	public function fromVLQSigned( $aValue ) {
+		return $aValue & 1 ? $this->zeroFill( ~$aValue + 2, 1 ) | ( -1 - 0x7fffffff ) : $this->zeroFill( $aValue, 1 );
 	}
 
 	/**
 	 * Return the base 64 VLQ encoded value.
 	 *
-	 * @param string $aValue The value to encode
+	 * @param int $aValue The value to encode
 	 * @return string The encoded value
 	 */
-	public function encode($aValue){
+	public function encode( $aValue ) {
 		$encoded = '';
-		$vlq = $this->toVLQSigned($aValue);
+		$vlq = $this->toVLQSigned( $aValue );
 		do
 		{
 			$digit = $vlq & $this->mask;
-			$vlq = $this->zeroFill($vlq, $this->shift);
-			if($vlq > 0){
+			$vlq = $this->zeroFill( $vlq, $this->shift );
+			if ( $vlq > 0 ) {
 				$digit |= $this->continuationBit;
 			}
-			$encoded .= $this->base64Encode($digit);
-		} while($vlq > 0);
+			$encoded .= $this->base64Encode( $digit );
+		} while ( $vlq > 0 );
 
 		return $encoded;
 	}
@@ -130,42 +128,42 @@ class Less_SourceMap_Base64VLQ {
 	 * Return the value decoded from base 64 VLQ.
 	 *
 	 * @param string $encoded The encoded value to decode
-	 * @return integer The decoded value
+	 * @return int The decoded value
 	 */
-	public function decode($encoded){
+	public function decode( $encoded ) {
 		$vlq = 0;
 		$i = 0;
 		do
 		{
-			$digit = $this->base64Decode($encoded[$i]);
-			$vlq |= ($digit & $this->mask) << ($i * $this->shift);
+			$digit = $this->base64Decode( $encoded[$i] );
+			$vlq |= ( $digit & $this->mask ) << ( $i * $this->shift );
 			$i++;
-		} while($digit & $this->continuationBit);
+		} while ( $digit & $this->continuationBit );
 
-		return $this->fromVLQSigned($vlq);
+		return $this->fromVLQSigned( $vlq );
 	}
 
 	/**
 	 * Right shift with zero fill.
 	 *
-	 * @param integer $a number to shift
-	 * @param integer $b number of bits to shift
-	 * @return integer
+	 * @param int $a number to shift
+	 * @param int $b number of bits to shift
+	 * @return int
 	 */
-	public function zeroFill($a, $b){
-		return ($a >= 0) ? ($a >> $b) : ($a >> $b) & (PHP_INT_MAX >> ($b - 1));
+	public function zeroFill( $a, $b ) {
+		return ( $a >= 0 ) ? ( $a >> $b ) : ( $a >> $b ) & ( PHP_INT_MAX >> ( $b - 1 ) );
 	}
 
 	/**
 	 * Encode single 6-bit digit as base64.
 	 *
-	 * @param integer $number
+	 * @param int $number
 	 * @return string
 	 * @throws Exception If the number is invalid
 	 */
-	public function base64Encode($number){
-		if($number < 0 || $number > 63){
-			throw new Exception(sprintf('Invalid number "%s" given. Must be between 0 and 63.', $number));
+	public function base64Encode( $number ) {
+		if ( $number < 0 || $number > 63 ) {
+			throw new Exception( sprintf( 'Invalid number "%s" given. Must be between 0 and 63.', (string)$number ) );
 		}
 		return $this->intToCharMap[$number];
 	}
@@ -174,12 +172,12 @@ class Less_SourceMap_Base64VLQ {
 	 * Decode single 6-bit digit from base64
 	 *
 	 * @param string $char
-	 * @return number
+	 * @return int
 	 * @throws Exception If the number is invalid
 	 */
-	public function base64Decode($char){
-		if(!array_key_exists($char, $this->charToIntMap)){
-			throw new Exception(sprintf('Invalid base 64 digit "%s" given.', $char));
+	public function base64Decode( $char ) {
+		if ( !array_key_exists( $char, $this->charToIntMap ) ) {
+			throw new Exception( sprintf( 'Invalid base 64 digit "%s" given.', $char ) );
 		}
 		return $this->charToIntMap[$char];
 	}

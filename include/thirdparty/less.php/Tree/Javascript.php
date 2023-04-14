@@ -1,12 +1,8 @@
 <?php
-
 /**
- * Javascript
- *
- * @package Less
- * @subpackage tree
+ * @private
  */
-class Less_Tree_Javascript extends Less_Tree{
+class Less_Tree_Javascript extends Less_Tree {
 
 	public $type = 'Javascript';
 	public $escaped;
@@ -14,17 +10,17 @@ class Less_Tree_Javascript extends Less_Tree{
 	public $index;
 
 	/**
-	 * @param boolean $index
-	 * @param boolean $escaped
+	 * @param bool $index
+	 * @param bool $escaped
 	 */
-	public function __construct($string, $index, $escaped){
+	public function __construct( $string, $index, $escaped ) {
 		$this->escaped = $escaped;
 		$this->expression = $string;
 		$this->index = $index;
 	}
 
-	public function compile(){
-		return new Less_Tree_Anonymous('/* Sorry, can not do JavaScript evaluation in PHP... :( */');
+	public function compile( $env ) {
+		return new Less_Tree_Anonymous( '/* Sorry, can not do JavaScript evaluation in PHP... :( */' );
 	}
 
 }

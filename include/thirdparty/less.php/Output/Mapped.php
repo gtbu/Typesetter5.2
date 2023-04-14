@@ -1,10 +1,8 @@
 <?php
-
 /**
  * Parser output with source map
  *
- * @package Less
- * @subpackage Output
+ * @private
  */
 class Less_Output_Mapped extends Less_Output {
 
@@ -18,14 +16,14 @@ class Less_Output_Mapped extends Less_Output {
 	/**
 	 * Current line
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $lineNumber = 0;
 
 	/**
 	 * Current column
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $column = 0;
 
@@ -34,7 +32,7 @@ class Less_Output_Mapped extends Less_Output {
 	 *
 	 * @var array
 	 */
-	protected $contentsMap = array();
+	protected $contentsMap = [];
 
 	/**
 	 * Constructor
@@ -42,7 +40,7 @@ class Less_Output_Mapped extends Less_Output {
 	 * @param array $contentsMap Array of filename to contents map
 	 * @param Less_SourceMap_Generator $generator
 	 */
-	public function __construct(array $contentsMap, $generator){
+	public function __construct( array $contentsMap, $generator ) {
 		$this->contentsMap = $contentsMap;
 		$this->generator = $generator;
 	}
@@ -52,71 +50,68 @@ class Less_Output_Mapped extends Less_Output {
 	 * The $index for less.php may be different from less.js since less.php does not chunkify inputs
 	 *
 	 * @param string $chunk
-	 * @param string $fileInfo
-	 * @param integer $index
+	 * @param array|null $fileInfo
+	 * @param int $index
 	 * @param mixed $mapLines
 	 */
-	public function add($chunk, $fileInfo = null, $index = 0, $mapLines = null){
-
-		//ignore adding empty strings
-		if( $chunk === '' ){
+	public function add( $chunk, $fileInfo = null, $index = 0, $mapLines = null ) {
+		// ignore adding empty strings
+		if ( $chunk === '' ) {
 			return;
 		}
 
-
-		$sourceLines = array();
+		$sourceLines = [];
 		$sourceColumns = ' ';
 
-
-		if( $fileInfo ){
+		if ( $fileInfo ) {
 
 			$url = $fileInfo['currentUri'];
 
-			if( isset($this->contentsMap[$url]) ){
-				$inputSource = substr($this->contentsMap[$url], 0, $index);
-				$sourceLines = explode("\n", $inputSource);
-				$sourceColumns = end($sourceLines);
-			}else{
-				throw new Exception('Filename '.$url.' not in contentsMap');
+			if ( isset( $this->contentsMap[$url] ) ) {
+				$inputSource = substr( $this->contentsMap[$url], 0, $index );
+				$sourceLines = explode( "\n", $inputSource );
+				$sourceColumns = end( $sourceLines );
+			} else {
+				throw new Exception( 'Filename ' . $url . ' not in contentsMap' );
 			}
 
 		}
 
-		$lines = explode("\n", $chunk);
-		$columns = end($lines);
+		$lines = explode( "\n", $chunk );
+		$columns = end( $lines );
 
-		if($fileInfo){
+		if ( $fileInfo ) {
 
-			if(!$mapLines){
+			if ( !$mapLines ) {
 				$this->generator->addMapping(
 						$this->lineNumber + 1,					// generated_line
 						$this->column,							// generated_column
-						count($sourceLines),					// original_line
-						strlen($sourceColumns),					// original_column
+						count( $sourceLines ),					// original_line
+						strlen( $sourceColumns ),					// original_column
 						$fileInfo
 				);
-			}else{
-				for($i = 0, $count = count($lines); $i < $count; $i++){
+			} else {
+				for ( $i = 0, $count = count( $lines ); $i < $count; $i++ ) {
 					$this->generator->addMapping(
 						$this->lineNumber + $i + 1,				// generated_line
 						$i === 0 ? $this->column : 0,			// generated_column
-						count($sourceLines) + $i,				// original_line
-						$i === 0 ? strlen($sourceColumns) : 0, 	// original_column
+						count( $sourceLines ) + $i,				// original_line
+						$i === 0 ? strlen( $sourceColumns ) : 0, 	// original_column
 						$fileInfo
 					);
 				}
 			}
 		}
 
-		if(count($lines) === 1){
-			$this->column += strlen($columns);
-		}else{
-			$this->lineNumber += count($lines) - 1;
-			$this->column = strlen($columns);
+		if ( count( $lines ) === 1 ) {
+			$this->column += strlen( $columns );
+		} else {
+			$this->lineNumber += count( $lines ) - 1;
+			$this->column = strlen( $columns );
 		}
 
 		// add only chunk
-		parent::add($chunk);
+		parent::add( $chunk );
 	}
 
 }
