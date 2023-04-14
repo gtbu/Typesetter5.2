@@ -30,12 +30,12 @@ abstract class Node
     public $sourceIndex;
 
     /**
-     * @var int|null
+     * @var integer
      */
     public $sourceLine;
 
     /**
-     * @var int|null
+     * @var integer
      */
     public $sourceColumn;
 }

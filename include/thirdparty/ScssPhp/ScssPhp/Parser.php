@@ -80,7 +80,7 @@ class Parser
      */
     private $count;
     /**
-     * @var Block|null
+     * @var Block
      */
     private $env;
     /**
@@ -167,8 +167,6 @@ class Parser
      * @api
      *
      * @param string $msg
-     *
-     * @phpstan-return never-return
      *
      * @throws ParserException
      *
@@ -975,6 +973,11 @@ class Parser
 
         $this->seek($s);
 
+        // misc
+        if ($this->literal('-->', 3)) {
+            return true;
+        }
+
         // opening css block
         if (
             $this->selectors($selectors) &&
@@ -1062,7 +1065,10 @@ class Parser
         }
 
         // extra stuff
-        if ($this->matchChar(';')) {
+        if (
+            $this->matchChar(';') ||
+            $this->literal('<!--', 4)
+        ) {
             return true;
         }
 
@@ -1181,7 +1187,7 @@ class Parser
         }
 
         $r = '/' . $regex . '/' . $this->patternModifiers;
-        $result = preg_match($r, $this->buffer, $out, 0, $from);
+        $result = preg_match($r, $this->buffer, $out, null, $from);
 
         return $result;
     }
@@ -1249,7 +1255,6 @@ class Parser
                 'grayscale',
                 'hsl',
                 'hsla',
-                'hwb',
                 'invert',
                 'linear-gradient',
                 'min',
@@ -1454,7 +1459,7 @@ class Parser
     {
         $r = '/' . $regex . '/' . $this->patternModifiers;
 
-        if (! preg_match($r, $this->buffer, $out, 0, $this->count)) {
+        if (! preg_match($r, $this->buffer, $out, null, $this->count)) {
             return false;
         }
 
@@ -1535,7 +1540,7 @@ class Parser
     {
         $gotWhite = false;
 
-        while (preg_match(static::$whitePattern, $this->buffer, $m, 0, $this->count)) {
+        while (preg_match(static::$whitePattern, $this->buffer, $m, null, $this->count)) {
             if (isset($m[1]) && empty($this->commentsSeen[$this->count])) {
                 // comment that are kept in the output CSS
                 $comment = [];
@@ -3298,7 +3303,7 @@ class Parser
         }
 
         // match comment hack
-        if (preg_match(static::$whitePattern, $this->buffer, $m, 0, $this->count)) {
+        if (preg_match(static::$whitePattern, $this->buffer, $m, null, $this->count)) {
             if (! empty($m[0])) {
                 $parts[] = $m[0];
                 $this->count += \strlen($m[0]);
@@ -4069,20 +4074,11 @@ class Parser
     }
 
     /**
-     * Save internal encoding of mbstring
-     *
-     * When mbstring.func_overload is used to replace the standard PHP string functions,
-     * this method configures the internal encoding to a single-byte one so that the
-     * behavior matches the normal behavior of PHP string functions while using the parser.
-     * The existing internal encoding is saved and will be restored when calling {@see restoreEncoding}.
-     *
-     * If mbstring.func_overload is not used (or does not override string functions), this method is a no-op.
-     *
-     * @return void
+     * Save internal encoding
      */
     private function saveEncoding()
     {
-        if (\PHP_VERSION_ID < 80000 && \extension_loaded('mbstring') && (2 & (int) ini_get('mbstring.func_overload')) > 0) {
+        if (\extension_loaded('mbstring')) {
             $this->encoding = mb_internal_encoding();
 
             mb_internal_encoding('iso-8859-1');
@@ -4091,8 +4087,6 @@ class Parser
 
     /**
      * Restore internal encoding
-     *
-     * @return void
      */
     private function restoreEncoding()
     {

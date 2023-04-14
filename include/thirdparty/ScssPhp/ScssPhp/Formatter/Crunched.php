@@ -15,17 +15,21 @@ namespace ScssPhp\ScssPhp\Formatter;
 use ScssPhp\ScssPhp\Formatter;
 
 /**
- * Compressed formatter
+ * Crunched formatter
  *
- * @author Leaf Corcoran <leafot@gmail.com>
+ * @author Anthon Pang <anthon.pang@gmail.com>
+ *
+ * @deprecated since 1.4.0. Use the Compressed formatter instead.
  */
-class Compressed extends Formatter
+class Crunched extends Formatter
 {
     /**
      * {@inheritdoc}
      */
     public function __construct()
     {
+        @trigger_error('The Crunched formatter is deprecated since 1.4.0. Use the Compressed formatter instead.', E_USER_DEPRECATED);
+
         $this->indentLevel = 0;
         $this->indentChar = '  ';
         $this->break = '';
@@ -46,10 +50,8 @@ class Compressed extends Formatter
         $glue = $this->break . $inner;
 
         foreach ($block->lines as $index => $line) {
-            if (substr($line, 0, 2) === '/*' && substr($line, 2, 1) !== '!') {
+            if (substr($line, 0, 2) === '/*') {
                 unset($block->lines[$index]);
-            } elseif (substr($line, 0, 3) === '/*!') {
-                $block->lines[$index] = '/*' . substr($line, 3);
             }
         }
 
@@ -67,8 +69,6 @@ class Compressed extends Formatter
      */
     protected function blockSelectors(OutputBlock $block)
     {
-        assert(! empty($block->selectors));
-
         $inner = $this->indentStr();
 
         $this->write(

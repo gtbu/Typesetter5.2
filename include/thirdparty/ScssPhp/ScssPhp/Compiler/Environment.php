@@ -20,12 +20,12 @@ namespace ScssPhp\ScssPhp\Compiler;
 class Environment
 {
     /**
-     * @var \ScssPhp\ScssPhp\Block|null
+     * @var \ScssPhp\ScssPhp\Block
      */
     public $block;
 
     /**
-     * @var \ScssPhp\ScssPhp\Compiler\Environment|null
+     * @var \ScssPhp\ScssPhp\Compiler\Environment
      */
     public $parent;
 
