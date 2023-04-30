@@ -14,6 +14,8 @@ namespace ScssPhp\ScssPhp\Logger;
 
 /**
  * A logger that prints to a PHP stream (for instance stderr)
+ *
+ * @final
  */
 class StreamLogger implements LoggerInterface
 {
@@ -30,6 +32,9 @@ class StreamLogger implements LoggerInterface
         $this->closeOnDestruct = $closeOnDestruct;
     }
 
+    /**
+     * @internal
+     */
     public function __destruct()
     {
         if ($this->closeOnDestruct) {
