@@ -2,18 +2,9 @@
 
 namespace gp\tool\Output;
 
-/* require_once $dataDir . '/include/thirdparty/ScssPhp/ScssPhp' . '/scss.inc.php'; */
-use ScssPhp\ScssPhp\Compiler;
-use function ScssPhp\ScssPhp\getIncludedFiles;
-use ScssPhp\ScssPhp\Parser;
-use ScssPhp\ScssPhp\OutputStyle;
-use ScssPhp\ScssPhp\Formatter;
-use ScssPhp\ScssPhp\SourceMap\SourceMapGenerator;
-
-
 class Css{
 
-    public $parser;
+
 	/**
 	 * Convert a .scss or .less files to .css and include it in the page
 	 *
@@ -57,8 +48,8 @@ class Css{
 			$temp_sourcemap_name	= $parsed_data[1];
 		}else{
 			$parsed_data			= self::ParseScss($file_array);
-			$compiled				= $parsed_data[0] ?? 'default value';  /* ??= 'default value'; */
-			$temp_sourcemap_name	= $parsed_data[1] ?? 'default value';
+			$compiled				= $parsed_data[0];
+			$temp_sourcemap_name	= $parsed_data[1];
 		}
 
 		if( !$compiled ){
@@ -166,7 +157,7 @@ class Css{
 			$compiler->addImportPath($dataDir);
 
 			// set 'compressed' format for compiled css
-			 $compiler->setOutputStyle(OutputStyle::COMPRESSED); 
+			$compiler->setFormatter('ScssPhp\ScssPhp\Formatter\Compressed');
 
 			$temp_sourcemap_name = false;
 
@@ -200,8 +191,9 @@ class Css{
 
 			}
 
-		$tmpcomp = $compiler->compileString(implode("\n", $combined));
-			$compiled = $tmpcomp->getCss();		
+			$compiled	= $compiler->compile(implode("\n", $combined));
+			// debug('$compiler = ' . pre(get_object_vars($compiler))); /* TODO: remove */
+			// $variables	= $compiler->getVariables(); debug('Scss variables = ' . pre($variables)); /* TODO: remove */
 
 		}catch( \Exception $e){
 			if( \gp\tool::LoggedIn() ){
@@ -210,10 +202,8 @@ class Css{
 			return false;
 		}
 
-	 $includedFiles = $tmpcomp->getIncludedFiles();
-     $sourceMap = $tmpcomp->getSourceMap(); 
-	 
-    	$scss_files = $includedFiles; 
+		$scss_files = $compiler->getParsedFiles();
+		$scss_files = array_keys($scss_files);
 
 		return [$compiled, $temp_sourcemap_name];
 	}
@@ -271,8 +261,8 @@ class Css{
 		$import_dirs[$dataDir] = \gp\tool::GetDir('/');
 		$parser->SetImportDirs($import_dirs);
 
-		/* $parser->cache_method = 'php'; */
-		$parser::$options['cache_method'] == 'php'; 
+
+		$parser->cache_method = 'php';
 		$parser->SetCacheDir($dataDir . '/data/_cache');
 
 		// combine files
