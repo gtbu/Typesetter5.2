@@ -466,7 +466,7 @@ function GetMessages($wrap=true){
 		$result .=		'</div>';
 		$result .=	'</div>';
 
-		$result .=	'<script type="text/javascript">';
+		$result .=	'<div style="display:none;"><script type="text/javascript">';
 		$result .=		'(function(){';
 		$result .=			'setTimeout(function(){';
 		$result .=				'var elem=document.querySelectorAll(".messages>div")[0];';
@@ -474,7 +474,7 @@ function GetMessages($wrap=true){
 		$result .=				'elem.style.maxHeight="calc(100vh - 40px)";';
 		$result .=			'},150);';
 		$result .=		'})();';
-		$result .=	'</script>';
+		$result .=	'</script></div>';
 	}
 
 	return $result .= \gp\tool::ErrorBuffer() . $wrap_end;
