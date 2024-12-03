@@ -1,6 +1,6 @@
 ﻿/**
- * @license Copyright (c) 2003-2021, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or https://ckeditor.com/license
+ * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license/
  */
 
 /**
@@ -13,10 +13,10 @@
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/baf440055a60d6783f76b5183be70523
+ * (2) https://ckeditor.com/cke4/builder/c5f143c35db4cfdff01d956f225e38b4
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/baf440055a60d6783f76b5183be70523
+ * (3) https://ckeditor.com/cke4/builder/download/c5f143c35db4cfdff01d956f225e38b4
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -25,7 +25,7 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'moono-lisa',
+	skin: 'kama',
 	preset: 'full',
 	ignore: [
 		'.DS_Store',
@@ -60,7 +60,7 @@ var CKBUILDER_CONFIG = {
 		'bidi' : 1,
 		'blockquote' : 1,
 		'button' : 1,
-		'codemirror' : 1,
+		'clipboard' : 1,
 		'colorbutton' : 1,
 		'colordialog' : 1,
 		'contextmenu' : 1,
@@ -86,6 +86,7 @@ var CKBUILDER_CONFIG = {
 		'indent' : 1,
 		'indentlist' : 1,
 		'justify' : 1,
+		'lineutils' : 1,
 		'link' : 1,
 		'list' : 1,
 		'listblock' : 1,
@@ -120,6 +121,7 @@ var CKBUILDER_CONFIG = {
 		'templates' : 1,
 		'toolbar' : 1,
 		'undo' : 1,
+		'widget' : 1,
 		'wysiwygarea' : 1
 	},
 	languages : {
@@ -140,7 +142,6 @@ var CKBUILDER_CONFIG = {
 		'gl' : 1,
 		'hr' : 1,
 		'hu' : 1,
-		'is' : 1,
 		'it' : 1,
 		'ja' : 1,
 		'lt' : 1,
@@ -149,7 +150,6 @@ var CKBUILDER_CONFIG = {
 		'pl' : 1,
 		'pt' : 1,
 		'pt-br' : 1,
-		'ro' : 1,
 		'ru' : 1,
 		'sk' : 1,
 		'sl' : 1,

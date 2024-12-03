@@ -637,7 +637,8 @@ namespace gp\tool{
 							'disableNativeSpellChecker'	=> false,
 							'FillEmptyBlocks'			=> false,
 							'autoParagraph'				=> false,
-							'extraAllowedContent'		=> 'iframe[align,frameborder,height,longdesc,marginheight,marginwidth,name,sandbox,scrolling,seamless,src,srcdoc,width];script[async,charset,defer,src,type,xml]; *[accesskey,contenteditable,contextmenu,dir,draggable,dropzone,hidden,id,lang,spellcheck,style,tabindex,title,translate](*)',
+							'versionCheck'              => false,
+							'extraAllowedContent'		=> 'i[*],iframe[align,frameborder,height,longdesc,marginheight,marginwidth,name,sandbox,scrolling,seamless,src,srcdoc,width];script[async,charset,defer,src,type,xml]; *[accesskey,contenteditable,contextmenu,dir,draggable,dropzone,hidden,id,lang,spellcheck,style,tabindex,title,translate](*)',
 
 							'toolbar'					=> array(
 																array('Sourcedialog','Templates','ShowBlocks','Undo','Redo','RemoveFormat'), //,'Maximize' does not work well
