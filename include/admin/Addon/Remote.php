@@ -45,11 +45,11 @@ class Remote extends \gp\admin\Addon\Install{
 
 		$this->SearchOrder(); // \gp\Addon\Install
 
-		$slug = 'Plugins';
+		$slug = 'Online-Plugins';
 		if( $this->config_index == 'themes' ){
-			$slug = 'Themes';
+			$slug = 'Online-Themes';
 		}
-		$src = \addon_browse_path.'/'.$slug.'?cmd=remote&format=json&'.$this->searchQuery.'&page='.$this->searchPage; // format=json added 4.6b3
+		$src = \CMS_READABLE_DOMAIN.'/'.$slug.'?cmd=remote&format=json&'.$this->searchQuery.'&page='.$this->searchPage; // format=json added 4.6b3
 
 		$this->ShowHeader(); // \gp\Addon\Install
 
@@ -288,11 +288,11 @@ class Remote extends \gp\admin\Addon\Install{
 	 *
 	 */
 	public function ViewOnline(){
-		$slug = 'Plugins';
+		$slug = 'Online-Plugins';
 		if( $this->config_index == 'themes' ){
-			$slug = 'Themes';
+			$slug = 'Online-Themes';
 		}
-		$url = \addon_browse_path.'/'.$slug.'?'.$this->searchQuery.'&page='.$this->searchPage;
-		echo '<p>View search results on <a href="'.$url.'" target="_blank">'.CMS_READABLE_DOMAIN.'</p>';
+		$url = \CMS_READABLE_DOMAIN.'/'.$slug.'?'.$this->searchQuery.'&page='.$this->searchPage;
+		echo '<p>View search results on <a href="https://github.com/gtbu/'.$slug.'" target="_blank">Github</p>';
 	}
 }
