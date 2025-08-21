@@ -447,26 +447,26 @@ class Session{
 			$domain = substr($domain, 0, strrpos($domain, ':'));
 		}
 
-		// expire if value is empty
-		// cookies are set with either www removed from the domain or with an empty string
-		if( empty($value) ){
-			$expires = time()-2592000;
-			setcookie($name, $value, $expires, $cookiePath, $domain, $secure, true);
-			setcookie($name, $value, $expires, $cookiePath, $domain, false, true);
-			return;
-		}
+		 // Default expiration: 30 days
+    $expiry = ($expires === false) ? time()+2592000 // 30 days
+            : (($expires === true) ? 0 // session cookie
+            : $expires);
 
+    $options = [        'expires'  => $expiry,
+        'path'     => $cookiePath,
+        'domain'   => $domain,
+        'secure'   => $secure,
+        'httponly' => true,
+        'samesite' => 'Strict', // Or 'Lax'
+    ];
 
-		// get expiration and set
-		if( $expires === false ){
-			$expires = time()+2592000; //30 days
-		}elseif( $expires === true ){
-			$expires = 0; //expire at end of session
-		}
+    // If we want to delete the cookie, set expiry to the past
+    if (empty($value)) {
+        $options['expires'] = time()-3600;
+    }
 
-		setcookie($name, $value, $expires, $cookiePath, $domain, $secure, true);
-	}
-
+    setcookie($name, $value, $options);
+    }
 
 
 	/**
